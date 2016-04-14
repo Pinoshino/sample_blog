@@ -1,0 +1,48 @@
+p
+    strong
+        タイトル：
+    = @blog.title
+        
+
+p
+    strong
+        本文：
+    = @blog.content
+        
+h2 コメント
+
+- @blog.comments.each do |comment|
+        
+    p
+        strong
+            投稿者：
+        = comment.commenter
+            
+    p
+        strong
+            コメント：
+        = simple_format comment.body
+
+
+
+
+h3 コメント追加
+
+= form_for( [@blog, @blog.comments.build] ) do |f|
+
+    p
+        = f.label :投稿者
+        br
+        = f.text_field :commenter
+        
+    p
+        = f.label :コメント本文
+        br
+        = f.text_area :body, cols: 70, rows: 12
+        
+    p
+        = f.submit
+        
+
+    
+    
