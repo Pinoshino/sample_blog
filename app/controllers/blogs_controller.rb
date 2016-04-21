@@ -1,8 +1,16 @@
 class BlogsController < ApplicationController
 
+    before_action :set_find, only: [:show, :edit, :update, :destroy]
+    
+    
+    # 結構使うアクション
+    def set_find
+        @blog = Blog.find(params[:id])
+    end   
+    
+    
     def index
        
-       @blogs = Blog.all
         #render :text => 'Hello, World'
         
         @q = Blog.search(params[:q])
@@ -12,7 +20,6 @@ class BlogsController < ApplicationController
 
     
     def show
-        @blog = Blog.find(params[:id])
         
     end
 
@@ -22,20 +29,24 @@ class BlogsController < ApplicationController
         
     end
     
+    
     def create
         @blog = Blog.new(blog_params) # ここで引き渡される。ロックする
-        @blog.save
-        redirect_to blogs_path # ブログ一覧へ戻る
+        if @blog.save
+            redirect_to blogs_path # ブログ一覧へ戻る
+        else
+            render "new" # また新規投稿画面へ
+        end
+    
     end
     
+    
     def edit
-        @blog = Blog.find(params[:id])
         
     end
     
+    
     def update
-       
-       @blog = Blog.find(params[:id])
         if @blog.update(blog_params)
             redirect_to blogs_path
         else
@@ -43,17 +54,18 @@ class BlogsController < ApplicationController
         end
     end
     
+    
     def destroy
-        @blog = Blog.find(params[:id])
         @blog.destroy
         redirect_to blogs_path
     end
+    
     
     private
         
         def blog_params
             
-            params[:blog].permit(:title, :content, :comment)
+            params[:blog].permit(:title, :content )
             
         end
         
