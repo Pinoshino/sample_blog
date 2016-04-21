@@ -3,16 +3,18 @@ h1 Blogs
 h2 タイトル検索
 
 = search_form_for @q do |f|
-    = f.label :タイトル名
+    = f.label :title,"タイトル名"
     = f.search_field :title_start
     = f.submit
     
 ul
     - @blogs.each do |blog|
-        li
-            = link_to blog.title, blog_path(blog.id)
-            = link_to " [編集]", edit_blog_path(blog.id)
-            = link_to "[削除]", blog_path(blog.id), method: :delete, data:{　confirm: "本当に削除しますか？"}
+        div id="blog_#{blog.id}" 
+            li
+            
+                = link_to blog.title, blog_path(blog.id)
+                = link_to "[編集]", edit_blog_path(blog.id)
+                = link_to "[削除]", blog_path(blog), method:  :delete, :remote => true
             
 p
     = link_to "新しい投稿", new_blog_path

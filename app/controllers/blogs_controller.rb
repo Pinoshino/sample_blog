@@ -21,6 +21,8 @@ class BlogsController < ApplicationController
     
     def show
         
+      @comment = @blog.comments.new
+        
     end
 
 
@@ -57,7 +59,7 @@ class BlogsController < ApplicationController
     
     def destroy
         @blog.destroy
-        redirect_to blogs_path
+        render :json => {:blog => @blog}
     end
     
     
